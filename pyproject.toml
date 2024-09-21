@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "oauthmanager"
+version = "0.1.0"
+description = ""
+authors = ["Suhail <suhailece@gmail.com>"]
+readme = "README.md"
+packages = [{include = "oauthmanager", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
