@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "oauthmanager", from = "src"}]
 
 [tool.poetry.dependencies]
-python = "^3.12.2"
+python = "^3.11.7"
 
 
 [build-system]
