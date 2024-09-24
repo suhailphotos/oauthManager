@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "oauthmanager"
-version = "0.1.0"
+version = "0.1.1"
 description = "A module for managing API authentication using 1Password and more."
 authors = ["Suhail <suhailece@gmail.com>"]
-readme = { file = "README.md", format = "md" }
+readme = "README.md"
 license = "MIT"
 packages = [{include = "oauthmanager", from = "src"}]
 
@@ -11,8 +11,6 @@ packages = [{include = "oauthmanager", from = "src"}]
 python = "^3.11"
 cryptography = "^43.0.1"
 
-# Exclude sensitive files like credential cache
-exclude = ["credentials_cache.json"]
 
 [build-system]
 requires = ["poetry-core"]
