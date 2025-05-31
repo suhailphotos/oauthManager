@@ -1,0 +1,206 @@
+{
+  "vaults": [
+    {
+      "id": "<vault-id-aiServices>",
+      "name": "aiServices",
+      "items": [
+        {
+          "id": "<item-id-openai>",
+          "name": "openai"
+        },
+        {
+          "id": "<item-id-huggingface>",
+          "name": "huggingface"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-cicdTools>",
+      "name": "cicdTools",
+      "items": [
+        {
+          "id": "<item-id-githubActions>",
+          "name": "githubActions"
+        },
+        {
+          "id": "<item-id-circleci>",
+          "name": "circleci"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-cloudSvc>",
+      "name": "cloudSvc",
+      "items": [
+        {
+          "id": "<item-id-aws>",
+          "name": "aws"
+        },
+        {
+          "id": "<item-id-gcp>",
+          "name": "gcp"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-dataStores>",
+      "name": "dataStores",
+      "items": [
+        {
+          "id": "<item-id-s3>",
+          "name": "s3"
+        },
+        {
+          "id": "<item-id-gcs>",
+          "name": "gcs"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-dbSvc>",
+      "name": "dbSvc",
+      "items": [
+        {
+          "id": "<item-id-supabase>",
+          "name": "supabase"
+        },
+        {
+          "id": "<item-id-mongoAtlas>",
+          "name": "mongoAtlas"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-devTools>",
+      "name": "devTools",
+      "items": [
+        {
+          "id": "<item-id-github>",
+          "name": "github"
+        },
+        {
+          "id": "<item-id-pypi>",
+          "name": "pypi"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-expTrack>",
+      "name": "expTrack",
+      "items": [
+        {
+          "id": "<item-id-wandb>",
+          "name": "wandb"
+        },
+        {
+          "id": "<item-id-neptune>",
+          "name": "neptune"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-featStore>",
+      "name": "featStore",
+      "items": [
+        {
+          "id": "<item-id-feast>",
+          "name": "feast"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-mediaAPIs>",
+      "name": "mediaAPIs",
+      "items": [
+        {
+          "id": "<item-id-spotify>",
+          "name": "spotify"
+        },
+        {
+          "id": "<item-id-youtube>",
+          "name": "youtube"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-messaging>",
+      "name": "messaging",
+      "items": [
+        {
+          "id": "<item-id-slack>",
+          "name": "slack"
+        },
+        {
+          "id": "<item-id-twilio>",
+          "name": "twilio"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-mlopsTools>",
+      "name": "mlopsTools",
+      "items": [
+        {
+          "id": "<item-id-mlflow>",
+          "name": "mlflow"
+        },
+        {
+          "id": "<item-id-kubeflow>",
+          "name": "kubeflow"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-netTools>",
+      "name": "netTools",
+      "items": [
+        {
+          "id": "<item-id-tailscale>",
+          "name": "tailscale"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-orchTools>",
+      "name": "orchTools",
+      "items": [
+        {
+          "id": "<item-id-airflow>",
+          "name": "airflow"
+        },
+        {
+          "id": "<item-id-prefect>",
+          "name": "prefect"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-prodTools>",
+      "name": "prodTools",
+      "items": [
+        {
+          "id": "<item-id-notion>",
+          "name": "notion"
+        },
+        {
+          "id": "<item-id-jira>",
+          "name": "jira"
+        }
+      ]
+    },
+    {
+      "id": "<vault-id-security>",
+      "name": "security",
+      "items": [
+        {
+          "id": "<item-id-1password>",
+          "name": "1password"
+        },
+        {
+          "id": "<item-id-vault>",
+          "name": "vault"
+        }
+      ]
+    }
+  ]
+}
