@@ -90,15 +90,28 @@ class GoogleDriveProvider(Provider):
     # ------------------------------------------------------------------ #
     @staticmethod
     def _op_get_document(vault: str, title: str) -> str:
-        """
-        Returns the raw JSON string stored in the OP document.
-        """
-        try:
-            out = subprocess.check_output(
-                ["op", "document", "get", title, "--vault", vault], text=True
-            )
-            return out.strip()
-        except subprocess.CalledProcessError as e:
+        cmd = ["op", "document", "get", title, "--vault", vault]
+    
+        def _run() -> str | None:
+            try:
+                return subprocess.check_output(cmd, text=True).strip()
+            except subprocess.CalledProcessError as err:
+                # 'session is locked' or 'sign in' are the two common phrases
+                if "session" in err.stderr.lower() and "locked" in err.stderr.lower():
+                    return None   # ask caller to retry
+                if "sign in" in err.stderr.lower():
+                    return None
+                raise  # unrelated error
+    
+        # first attempt (may raise unlock window)
+        txt = _run()
+        if txt is not None:
+            return txt
+    
+        # user just unlocked the app – retry once
+        txt = _run()
+        if txt is None:
             raise OPFieldError(
-                f"Could not fetch OP document '{title}' from vault '{vault}'.\n{e.stderr}"
-            ) from None
+                f"Could not fetch OP document '{title}' from vault '{vault}'. "
+                "Make sure you are signed in and the vault is unlocked."
+            )
