@@ -11,7 +11,11 @@ Outputs a single JSON blob to stdout, in the format:
       "id": "<vault-id>",
       "name": "<vault-name>",
       "items": [
-        { "id": "<item-id>", "name": "<item-title>" },
+        {
+          "id": "<item-id>",
+          "name": "<item-title>",
+          "field_keys": ["username", "client_id", ...]
+        },
         ...
       ]
     },
@@ -44,59 +48,52 @@ def run_op_command(cmd_list):
         sys.exit(1)
 
 def list_all_vaults():
-    """
-    Runs: op vault list --format json
-    Returns a list of vault dicts, each having "id" and "name" keys (and other metadata).
-    """
     return run_op_command(["op", "vault", "list", "--format", "json"])
 
 def list_items_in_vault(vault_id):
-    """
-    Runs: op item list --vault <vault_id> --format json
-    Returns a list of item dicts, each having keys like "id", "overview", etc.
-    We will extract "id" and "overview.title" as name.
-    """
     return run_op_command(["op", "item", "list", "--vault", vault_id, "--format", "json"])
 
-def main():
-    # 1) Get all vaults (list of dicts with "id" and "name")
-    vaults_raw = list_all_vaults()
+def get_item_full(item_id, vault_id):
+    return run_op_command(["op", "item", "get", item_id, "--vault", vault_id, "--format", "json"])
 
+def main():
+    vaults_raw = list_all_vaults()
     output = {"vaults": []}
 
     for vault in vaults_raw:
         vid = vault.get("id")
         vname = vault.get("name")
-
-        # 2) For each vault, get all items
         items_raw = list_items_in_vault(vid)
-
-        # 3) Build item list with only id + name
         items_list = []
         for item in items_raw:
             item_id = item.get("id")
-            # "overview" always exists if the item has a title
-            # Try “overview.title” first; if missing, try “title” at the top level
             item_name = (
                 item.get("overview", {}).get("title")
                 or item.get("title")
                 or "(no title)"
             )
+
+            # Get the full item to extract field_keys
+            full_item = get_item_full(item_id, vid)
+            field_keys = []
+            for fld in full_item.get("fields", []):
+                key_name = fld.get("label") or fld.get("designation") or fld.get("name")
+                if key_name:
+                    field_keys.append(key_name)
+
             items_list.append({
                 "id": item_id,
-                "name": item_name
+                "name": item_name,
+                "field_keys": field_keys
             })
 
-        # 4) Append this vault + its items to the output
         output["vaults"].append({
             "id": vid,
             "name": vname,
             "items": items_list
         })
 
-    # 5) Print the final JSON to stdout, nicely indented
     print(json.dumps(output, indent=2))
-
 
 if __name__ == "__main__":
     main()

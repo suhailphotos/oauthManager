@@ -1,0 +1,422 @@
+{
+  "vaults": [
+    {
+      "id": "zau2fprnslqo5gwkvqhzjqt6wy",
+      "name": "aiServices",
+      "items": [
+        {
+          "id": "2m45q7pjoujwlic247rv5vswgm",
+          "name": "OpenAI",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "type",
+            "filename",
+            "valid from",
+            "expires",
+            "hostname",
+            "api_key",
+            "project",
+            "name"
+          ]
+        },
+        {
+          "id": "hmelrro2pw6fpe67g6hqdpj3ci",
+          "name": "Grock",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "type",
+            "filename",
+            "valid from",
+            "expires",
+            "hostname"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dzo3fwdl4c4dpjzzf7yaj5fyli",
+      "name": "cicdTools",
+      "items": []
+    },
+    {
+      "id": "p5hoxuuy3ndodlbsnatdcpae4i",
+      "name": "cloudSvc",
+      "items": [
+        {
+          "id": "eokakvt7fdxiwcux7uissezpu4",
+          "name": "Dropbox",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "App Key",
+            "App Secreat",
+            "valid from",
+            "expires",
+            "hostname",
+            "Access Token"
+          ]
+        },
+        {
+          "id": "uhrymmugoaxbdat5qjogrikfay",
+          "name": "Cloudflare",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "User API Token (suhail.tech)",
+            "filename",
+            "valid from",
+            "expires",
+            "hostname",
+            "User API Token (suhail.life)",
+            "User API Token (suhail.photos)",
+            "User API Token (suhail.art)"
+          ]
+        },
+        {
+          "id": "fdyr4vvzye6rbj3hlencv752xu",
+          "name": "appPasswords",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "type",
+            "filename",
+            "valid from",
+            "expires",
+            "hostname",
+            "password",
+            "app password",
+            "password",
+            "app password",
+            "Google App Password Manager URL"
+          ]
+        },
+        {
+          "id": "omclrivubnfbzpcvrzb3dsjfx4",
+          "name": "ml4fvxOAuth",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "type",
+            "filename",
+            "creationDate",
+            "expires",
+            "hostname",
+            "clientID",
+            "clientSecret",
+            "project name",
+            "desktop name"
+          ]
+        },
+        {
+          "id": "b466pdviwnuycmqlynzsoytgnm",
+          "name": "Cloudinary",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "cloudname",
+            "API Key",
+            "valid from",
+            "expires",
+            "hostname",
+            "Environment Variable",
+            "API Secret"
+          ]
+        },
+        {
+          "id": "c4cl56cle7vmubtazu2s7tp5si",
+          "name": "backupCodes",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "type",
+            "filename",
+            "valid from",
+            "expires",
+            "hostname"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "62h444izf24xp454pnc3pdl77e",
+      "name": "dataStores",
+      "items": []
+    },
+    {
+      "id": "dduwtr3eyxj7jq3o3f2afebz2y",
+      "name": "dbSvc",
+      "items": [
+        {
+          "id": "4mp6dywgtnr6egiq27jja7w7c4",
+          "name": "Sunbase",
+          "field_keys": [
+            "notesPlain",
+            "URL",
+            "username",
+            "password",
+            "admin console URL",
+            "admin console username",
+            "console password",
+            "name",
+            "website",
+            "support URL",
+            "support phone"
+          ]
+        },
+        {
+          "id": "iq2q2vdedayxfe4xuyinriqfee",
+          "name": "Supabase",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "sign in with",
+            "Project URL",
+            "anon public",
+            "service_roll secreat"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ay3wcrmhbs4zl2vqopvwqel2tu",
+      "name": "devTools",
+      "items": [
+        {
+          "id": "dmyra5fxv53dlxezx4rs54m74a",
+          "name": "PyPi Token",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "pypi-token",
+            "filename",
+            "valid from",
+            "expires",
+            "hostname"
+          ]
+        },
+        {
+          "id": "cuctw3xoqz2cpsoagjxl2crtrq",
+          "name": "Repository Key",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "secret key",
+            "filename",
+            "valid from",
+            "expires",
+            "hostname"
+          ]
+        },
+        {
+          "id": "zqp26rcwvw5p4c7w5itj7qyoei",
+          "name": "n8n Application Key",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "Client ID",
+            "Client Secret"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m7qhcc3s2nxpwbhp5s6qeqdmgi",
+      "name": "expTrack",
+      "items": []
+    },
+    {
+      "id": "2qvrxikqjgemzwurknrelaeh4m",
+      "name": "featStore",
+      "items": []
+    },
+    {
+      "id": "4p6urzzcicwot2fyitrvhqkyre",
+      "name": "mediaAPIs",
+      "items": [
+        {
+          "id": "fbxypk5zt7iwuxcnx7txmnxxjq",
+          "name": "Spotify",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "password",
+            "credential",
+            "client_id",
+            "client_secret",
+            "uri",
+            "valid from",
+            "expires",
+            "hostname"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3gh22bpjt67oqmvu2hem6ibjuq",
+      "name": "messaging",
+      "items": []
+    },
+    {
+      "id": "e2shn3mihaj3qeqctmh6m4vttm",
+      "name": "mlopsTools",
+      "items": []
+    },
+    {
+      "id": "jaikarcdqiqgyvd3bjmpf5dxta",
+      "name": "netTools",
+      "items": [
+        {
+          "id": "7wfnkoc2cwccgn4skmygebpjqq",
+          "name": "tailscale",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "Nexus Auth Key",
+            "filename",
+            "valid from",
+            "expires",
+            "hostname"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3o64fncbk6qfdspuwdp2oafe4y",
+      "name": "orchTools",
+      "items": [
+        {
+          "id": "xkzp6v6hxnl6xxthknvetn4nmq",
+          "name": "PrefectHomeLab",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "type",
+            "filename",
+            "valid from",
+            "expires",
+            "hostname",
+            "POSTGRES_USER",
+            "POSTGRES_PASSWORD",
+            "POSTGRES_DB",
+            "POSTGRES_NON_ROOT_USER",
+            "POSTGRES_NON_ROOT_PASSWORD"
+          ]
+        },
+        {
+          "id": "ud6qyvz3jwwczis6kxfokpvlz4",
+          "name": "PrefectCloud",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "prefect cloud key name",
+            "Prefect Cloud Account ID",
+            "Prefect Cloud Workspace ID",
+            "valid from",
+            "expires",
+            "hostname",
+            "Copy this key and put it in a secure place",
+            "Or run this command to save the key to your active profile:"
+          ]
+        },
+        {
+          "id": "aeb72hdq7h2j4mpqgrjeuksmua",
+          "name": "n8nService",
+          "field_keys": [
+            "password",
+            "username",
+            "notesPlain",
+            "POSTGRES_NON_ROOT_USER",
+            "password",
+            "N8N_ENCRYPTION_KEY",
+            "Free User License Key"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "k4pt3wikq5ijbck7yqe7wdraqm",
+      "name": "prodTools",
+      "items": [
+        {
+          "id": "5htxrrrnziaprdrs3cv4eyk424",
+          "name": "Quantum",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "Integration",
+            "credential",
+            "type",
+            "filename",
+            "valid from",
+            "expires",
+            "hostname"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fdylm774zw5rn35kqo6qziun3e",
+      "name": "security",
+      "items": [
+        {
+          "id": "gmfeyp7xrk72o7rpp7zzchaota",
+          "name": "Private SSH Key",
+          "field_keys": [
+            "public key",
+            "fingerprint",
+            "private key",
+            "key type",
+            "notesPlain"
+          ]
+        },
+        {
+          "id": "rz3226s7dqtwfot5awoffzddqu",
+          "name": "1Pass3CLI",
+          "field_keys": [
+            "notesPlain",
+            "username",
+            "credential",
+            "type",
+            "filename",
+            "valid from",
+            "expires",
+            "hostname",
+            "OP_SERVICE_ACCOUNT_TOKEN"
+          ]
+        },
+        {
+          "id": "isexklbz2gjei6cad7muvbyeta",
+          "name": "Unifi Cloud Gateway Max Key",
+          "field_keys": [
+            "notesPlain",
+            "Unifi Cloud-Key",
+            "SSH Password",
+            "server / IP address",
+            "AirPort ID",
+            "network name",
+            "wireless security",
+            "wireless network password",
+            "attached storage password"
+          ]
+        }
+      ]
+    }
+  ]
+}
