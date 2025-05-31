@@ -1,3 +1,5 @@
+# src/oauthmanager/vaults/onepassword.py
+
 import subprocess
 import os
 import json
