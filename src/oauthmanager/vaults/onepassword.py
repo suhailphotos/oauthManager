@@ -15,20 +15,27 @@ from cryptography.fernet import Fernet
 log = logging.getLogger(__name__)
 
 
+# --------------------------------------------------------------------------- #
+# custom exceptions                                                           #
+# --------------------------------------------------------------------------- #
+class OPFieldError(RuntimeError):
+    """Raised when a specific field cannot be fetched from 1Password."""
+
+
+# --------------------------------------------------------------------------- #
+# main class                                                                  #
+# --------------------------------------------------------------------------- #
 class OnePasswordVault:
     """
-    Secure 1Password wrapper with encrypted, per-field caching.
+    Secure 1Password wrapper with encrypted on-disk caching.
 
-    Usage
-    -----
+    Example
+    -------
     vault = OnePasswordVault()
     creds = vault.fetch("mediaAPIs", "Spotify",
                         ("client_id", "client_secret", "redirect_uri"))
     """
 
-    # ------------------------------------------------------------------ #
-    # construction                                                       #
-    # ------------------------------------------------------------------ #
     def __init__(self, cache_ttl: int = 86_400):
         self.cache_ttl = cache_ttl
         self.cache_file = (
@@ -47,19 +54,14 @@ class OnePasswordVault:
         fields: Tuple[str, ...],
     ) -> Dict[str, str]:
         """
-        Return `{field: value, …}` for given vault / item.
+        Return `{field: value}` for the requested vault / item.
 
-        Parameters
-        ----------
-        vault_name : str
-            The 1Password vault (e.g. "mediaAPIs").
-        item_name : str
-            The item title inside that vault (e.g. "Spotify").
-        fields : tuple[str, ...]
-            The field labels you want (e.g. ("client_id", "client_secret")).
+        Raises
+        ------
+        OPFieldError
+            If one or more fields cannot be retrieved.
         """
         cache = self._read_cache()
-
         cell = (
             cache.get(vault_name, {})
             .get(item_name, {})
@@ -67,10 +69,22 @@ class OnePasswordVault:
         if cell and not self._cache_expired(cell["_fetched_at"]):
             return {f: cell[f] for f in fields if f in cell}
 
-        # not cached or stale –> hit op CLI
-        values = {f: self._op_read(vault_name, item_name, f) for f in fields}
+        values: Dict[str, str] = {}
+        missing: list[str] = []
 
-        # merge + persist
+        for f in fields:
+            try:
+                values[f] = self._op_read(vault_name, item_name, f)
+            except OPFieldError as e:
+                log.debug("Field fetch failed: %s", e)
+                missing.append(f)
+
+        if missing:
+            raise OPFieldError(
+                f"Missing fields {missing} in 1Password item "
+                f"'{item_name}' (vault '{vault_name}')."
+            )
+
         cache.setdefault(vault_name, {})[item_name] = {
             **values,
             "_fetched_at": time.time(),
@@ -91,7 +105,7 @@ class OnePasswordVault:
             raw = self.cache_file.read_bytes()
             decrypted = self.cipher.decrypt(raw).decode()
             return json.loads(decrypted)
-        except Exception as e:  # corrupt cache, wrong key, …
+        except Exception as e:  # corrupt / wrong key / …
             log.warning("Could not read credentials cache: %s", e)
             return {}
 
@@ -105,13 +119,20 @@ class OnePasswordVault:
     @staticmethod
     def _op_read(vault: str, item: str, field: str) -> str:
         op_path = f"op://{vault}/{item}/{field}"
-        result = subprocess.run(
-            ["op", "read", "--cache", op_path],
-            check=True,
-            capture_output=True,
-            text=True,
-        )
-        return result.stdout.strip()
+        try:
+            result = subprocess.run(
+                ["op", "read", "--cache", op_path],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            return result.stdout.strip()
+        except subprocess.CalledProcessError as err:
+            # Normalise the CLI's stderr into a concise message
+            stderr = (err.stderr or "").strip()
+            raise OPFieldError(
+                f"op read failed for {op_path!s}: {stderr or err}"
+            ) from None
 
     # ------------------------------------------------------------------ #
     # internal – encryption key                                          #
@@ -131,21 +152,23 @@ class OnePasswordVault:
         return key
 
 
-# ---------------------------------------------------------------------- #
-# quick diagnostic run                                                   #
-# ---------------------------------------------------------------------- #
+# --------------------------------------------------------------------------- #
+# quick diagnostic run                                                        #
+# --------------------------------------------------------------------------- #
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
     vault = OnePasswordVault()
 
-    # Example: Spotify entry lives in vault "mediaAPIs", item "Spotify"
-    spotify_creds = vault.fetch(
-        "mediaAPIs",
-        "Spotify",
-        ("client_id", "client_secret", "redirect_uri"),
-    )
-
-    print("Retrieved Spotify credentials:")
-    for k, v in spotify_creds.items():
-        print(f"  {k}: {v[:6]}…")
+    try:
+        spotify_creds = vault.fetch(
+            "mediaAPIs",
+            "Spotify",
+            ("client_id", "client_secret", "uri"),
+        )
+    except OPFieldError as e:
+        print(f" {e}")
+    else:
+        print("Retrieved Spotify credentials:")
+        for k, v in spotify_creds.items():
+            print(f"  {k}: {v[:6]}…")
