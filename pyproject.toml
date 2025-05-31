@@ -10,6 +10,9 @@ packages = [{include = "oauthmanager", from = "src"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 cryptography = "^43.0.1"
+google-api-python-client = "^2.170.0"
+google-auth-httplib2 = "^0.2.0"
+google-auth-oauthlib = "^1.2.2"
 
 
 [build-system]

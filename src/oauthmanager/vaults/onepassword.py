@@ -15,25 +15,18 @@ from cryptography.fernet import Fernet
 log = logging.getLogger(__name__)
 
 
-# --------------------------------------------------------------------------- #
-# custom exceptions                                                           #
-# --------------------------------------------------------------------------- #
 class OPFieldError(RuntimeError):
     """Raised when a specific field cannot be fetched from 1Password."""
 
 
-# --------------------------------------------------------------------------- #
-# main class                                                                  #
-# --------------------------------------------------------------------------- #
 class OnePasswordVault:
     """
-    Secure 1Password wrapper with encrypted on-disk caching.
+    1Password wrapper with encrypted on-disk caching.
 
-    Example
-    -------
     vault = OnePasswordVault()
     creds = vault.fetch("mediaAPIs", "Spotify",
-                        ("client_id", "client_secret", "redirect_uri"))
+                        ("client_id", "client_secret", "redirect_uri"),
+                        fresh=True)   # ← ignore cache just this once
     """
 
     def __init__(self, cache_ttl: int = 86_400):
@@ -52,25 +45,30 @@ class OnePasswordVault:
         vault_name: str,
         item_name: str,
         fields: Tuple[str, ...],
+        *,
+        fresh: bool = False,
     ) -> Dict[str, str]:
         """
-        Return `{field: value}` for the requested vault / item.
+        Return `{field: value}` for the vault / item.
 
-        Raises
-        ------
-        OPFieldError
-            If one or more fields cannot be retrieved.
+        Parameters
+        ----------
+        vault_name : str
+        item_name  : str
+        fields     : tuple[str, ...]
+        fresh      : bool   If True (or env OP_FRESH=1) skip cache and re-pull.
         """
-        cache = self._read_cache()
-        cell = (
-            cache.get(vault_name, {})
-            .get(item_name, {})
-        )
-        if cell and not self._cache_expired(cell["_fetched_at"]):
-            return {f: cell[f] for f in fields if f in cell}
+        fresh = fresh or os.getenv("OP_FRESH", "0") in {"1", "true", "yes"}
 
-        values: Dict[str, str] = {}
-        missing: list[str] = []
+        if not fresh:
+            cache = self._read_cache()
+            cell = cache.get(vault_name, {}).get(item_name, {})
+            if cell and not self._cache_expired(cell["_fetched_at"]):
+                return {f: cell[f] for f in fields if f in cell}
+        else:
+            cache = self._read_cache()  # still load so we can overwrite later
+
+        values, missing = {}, []
 
         for f in fields:
             try:
@@ -93,25 +91,45 @@ class OnePasswordVault:
         return values
 
     # ------------------------------------------------------------------ #
+    # cache invalidation helpers                                         #
+    # ------------------------------------------------------------------ #
+    def invalidate(self, vault_name: str, item_name: str | None = None) -> None:
+        """
+        Remove a cached entry.
+
+        • `invalidate("mediaAPIs", "Spotify")` removes just that item.
+        • `invalidate("mediaAPIs")` wipes the whole vault's cache.
+        """
+        cache = self._read_cache()
+        if vault_name not in cache:
+            return
+        if item_name:
+            cache[vault_name].pop(item_name, None)
+            if not cache[vault_name]:
+                cache.pop(vault_name, None)
+        else:
+            cache.pop(vault_name, None)
+        self._write_cache(cache)
+
+    # ------------------------------------------------------------------ #
     # internal – cache helpers                                           #
     # ------------------------------------------------------------------ #
-    def _cache_expired(self, fetched_at: float) -> bool:
-        return (time.time() - fetched_at) > self.cache_ttl
+    @staticmethod
+    def _cache_expired(fetched_at: float) -> bool:
+        return (time.time() - fetched_at) > 86_400  # 24 h
 
     def _read_cache(self) -> Dict:
         if not self.cache_file.exists():
             return {}
         try:
             raw = self.cache_file.read_bytes()
-            decrypted = self.cipher.decrypt(raw).decode()
-            return json.loads(decrypted)
-        except Exception as e:  # corrupt / wrong key / …
+            return json.loads(self.cipher.decrypt(raw).decode())
+        except Exception as e:
             log.warning("Could not read credentials cache: %s", e)
             return {}
 
     def _write_cache(self, obj: Dict) -> None:
-        encrypted = self.cipher.encrypt(json.dumps(obj).encode())
-        self.cache_file.write_bytes(encrypted)
+        self.cache_file.write_bytes(self.cipher.encrypt(json.dumps(obj).encode()))
 
     # ------------------------------------------------------------------ #
     # internal – 1Password CLI                                           #
@@ -128,47 +146,38 @@ class OnePasswordVault:
             )
             return result.stdout.strip()
         except subprocess.CalledProcessError as err:
-            # Normalise the CLI's stderr into a concise message
             stderr = (err.stderr or "").strip()
-            raise OPFieldError(
-                f"op read failed for {op_path!s}: {stderr or err}"
-            ) from None
+            raise OPFieldError(f"op read failed for {op_path}: {stderr or err}") from None
 
     # ------------------------------------------------------------------ #
     # internal – encryption key                                          #
     # ------------------------------------------------------------------ #
     def _ensure_key(self) -> bytes:
-        if platform.system() == "Windows":
-            key_file = Path(os.getenv("APPDATA", "")) / "oauthmanager" / "encryption_key"
-        else:
-            key_file = Path.home() / ".oauthmanager_key"
-        key_file.parent.mkdir(parents=True, exist_ok=True)
-
-        if key_file.exists():
-            return key_file.read_bytes()
-
+        dest = (
+            Path(os.getenv("APPDATA", "")) / "oauthmanager" / "encryption_key"
+            if platform.system() == "Windows"
+            else Path.home() / ".oauthmanager_key"
+        )
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        if dest.exists():
+            return dest.read_bytes()
         key = Fernet.generate_key()
-        key_file.write_bytes(key)
+        dest.write_bytes(key)
         return key
 
 
-# --------------------------------------------------------------------------- #
-# quick diagnostic run                                                        #
-# --------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------- #
+# diagnostic run                                                         #
+# ---------------------------------------------------------------------- #
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
-    vault = OnePasswordVault()
+    v = OnePasswordVault()
 
-    try:
-        spotify_creds = vault.fetch(
-            "mediaAPIs",
-            "Spotify",
-            ("client_id", "client_secret", "uri"),
-        )
-    except OPFieldError as e:
-        print(f" {e}")
-    else:
-        print("Retrieved Spotify credentials:")
-        for k, v in spotify_creds.items():
-            print(f"  {k}: {v[:6]}…")
+    # first run, stateless cache bypass
+    creds = v.fetch("mediaAPIs", "Spotify", ("client_id",), fresh=True)
+    print("client_id:", creds["client_id"][:6], "…")
+
+    # subsequent run should hit cache unless OP_FRESH=1 or fresh=True
+    creds2 = v.fetch("mediaAPIs", "Spotify", ("client_id",))
+    print("cached id :", creds2["client_id"][:6], "…")
