@@ -1,0 +1,45 @@
+{
+  "_help": "Each object in providers describes how a single external service is authenticated.\n\nRequired keys:\n  name   – logical identifier used by providers (lowercase, snake_case)\n  vault  – 1Password vault name where secrets live\n  item   – item title inside that vault (or document title for files)\n  auth   – object with method-specific requirements\n\nSupported auth.method values:\n  api_token           – single static token field\n  oauth2_client       – client_id + client_secret (and usually redirect_uri)\n  oauth2_client_file  – full JSON file stored as an OP document\n  service_keys        – e.g. Supabase anon / service keys\n  basic_auth          – username + password\n\nAdd new patterns as needed.",
+  "providers": [
+    {
+      "name": "google_drive",
+      "vault": "cloudSvc",
+      "item": "GoogleDrive",
+      "auth": {
+        "method": "oauth2_client_file",
+        "document_title": "ml4vfxClientSecretFile",
+        "token_cache": "~/.cache/oauthmanager/google_drive_token.json",
+        "scopes": ["https://www.googleapis.com/auth/drive.metadata.readonly"]
+      }
+    },
+    {
+      "name": "spotify",
+      "vault": "mediaAPIs",
+      "item": "Spotify",
+      "auth": {
+        "method": "oauth2_client",
+        "fields": ["client_id", "client_secret", "redirect_uri"],
+        "token_cache": "~/.cache/oauthmanager/spotify_token.json",
+        "scopes": ["playlist-read-private"]
+      }
+    },
+    {
+      "name": "notion",
+      "vault": "aiServices",
+      "item": "Notion",
+      "auth": {
+        "method": "api_token",
+        "field": "secret"
+      }
+    },
+    {
+      "name": "supabase",
+      "vault": "dbSvc",
+      "item": "Supabase",
+      "auth": {
+        "method": "service_keys",
+        "fields": ["Project URL", "anon public", "service_role_secret"]
+      }
+    }
+  ]
+}
