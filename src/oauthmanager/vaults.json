@@ -1,0 +1,146 @@
+{
+  "vaults": {
+    "aiServices": [
+      {
+        "name": "openai",
+        "url": "https://platform.openai.com"
+      },
+      {
+        "name": "huggingface",
+        "url": "https://huggingface.co"
+      }
+    ],
+    "cicdTools": [
+      {
+        "name": "githubActions",
+        "url": "https://github.com/features/actions"
+      },
+      {
+        "name": "circleci",
+        "url": "https://circleci.com"
+      }
+    ],
+    "cloudSvc": [
+      {
+        "name": "aws",
+        "url": "https://console.aws.amazon.com"
+      },
+      {
+        "name": "gcp",
+        "url": "https://console.cloud.google.com"
+      }
+    ],
+    "dataStores": [
+      {
+        "name": "s3",
+        "url": "https://s3.console.aws.amazon.com"
+      },
+      {
+        "name": "gcs",
+        "url": "https://console.cloud.google.com/storage"
+      }
+    ],
+    "dbSvc": [
+      {
+        "name": "supabase",
+        "url": "https://app.supabase.com"
+      },
+      {
+        "name": "mongoAtlas",
+        "url": "https://cloud.mongodb.com"
+      }
+    ],
+    "devTools": [
+      {
+        "name": "github",
+        "url": "https://github.com"
+      },
+      {
+        "name": "pypi",
+        "url": "https://pypi.org"
+      }
+    ],
+    "expTrack": [
+      {
+        "name": "wandb",
+        "url": "https://wandb.ai"
+      },
+      {
+        "name": "neptune",
+        "url": "https://neptune.ai"
+      }
+    ],
+    "featStore": [
+      {
+        "name": "feast",
+        "url": "https://feast.dev"
+      }
+    ],
+    "mediaAPIs": [
+      {
+        "name": "spotify",
+        "url": "https://developer.spotify.com"
+      },
+      {
+        "name": "youtube",
+        "url": "https://developers.google.com/youtube"
+      }
+    ],
+    "messaging": [
+      {
+        "name": "slack",
+        "url": "https://api.slack.com"
+      },
+      {
+        "name": "twilio",
+        "url": "https://www.twilio.com"
+      }
+    ],
+    "mlopsTools": [
+      {
+        "name": "mlflow",
+        "url": "https://mlflow.org"
+      },
+      {
+        "name": "kubeflow",
+        "url": "https://www.kubeflow.org"
+      }
+    ],
+    "netTools": [
+      {
+        "name": "tailscale",
+        "url": "https://tailscale.com"
+      }
+    ],
+    "orchTools": [
+      {
+        "name": "airflow",
+        "url": "https://airflow.apache.org"
+      },
+      {
+        "name": "prefect",
+        "url": "https://www.prefect.io"
+      }
+    ],
+    "prodTools": [
+      {
+        "name": "notion",
+        "url": "https://www.notion.so"
+      },
+      {
+        "name": "jira",
+        "url": "https://www.atlassian.com/software/jira"
+      }
+    ],
+    "security": [
+      {
+        "name": "1password",
+        "url": "https://my.1password.com"
+      },
+      {
+        "name": "vault",
+        "url": "https://www.vaultproject.io"
+      }
+    ]
+  }
+}
