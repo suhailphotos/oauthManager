@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "oauthmanager"
-version = "0.1.8"
+version = "0.1.9"
 description = "A module for managing API authentication using 1Password and more."
 authors = ["Suhail <suhailece@gmail.com>"]
 readme = "README.md"
