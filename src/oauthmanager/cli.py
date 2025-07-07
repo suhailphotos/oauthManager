@@ -12,7 +12,7 @@ import json
 import platform
 import shutil
 import subprocess
-import sys
+import os, sys
 import textwrap
 
 import click
