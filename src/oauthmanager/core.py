@@ -1,12 +1,14 @@
 import json
 from pathlib import Path
+import os
 from typing import Any
 
 from oauthmanager.vaults.onepassword import OnePasswordVault
 from oauthmanager.providers import load_provider
 
 
-CFG_PATH = Path.home() / ".oauthmanager" / "creds_config.json"
+CFG_DIR  = Path(os.getenv("XDG_CONFIG_HOME", Path.home() / ".config")) / "oauthmanager"
+CFG_PATH = CFG_DIR / "creds_config.json"
 _VAULT = OnePasswordVault()
 
 

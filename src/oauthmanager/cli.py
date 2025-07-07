@@ -22,7 +22,8 @@ import click
 # --------------------------------------------------------------------------- #
 PKG_ROOT   = Path(__file__).resolve().parent
 CONFIG_SRC = PKG_ROOT / ".config"                    # ship-with templates
-CONFIG_DIR = Path.home() / ".oauthmanager"           # user home dir
+CONFIG_DIR = Path(os.getenv("XDG_CONFIG_HOME", Path.home() / ".config")) / "oauthmanager"
+
 
 TEMPLATE_FILES = [
     ("env.example",       ".env",              False),

@@ -12,7 +12,7 @@ from oauthmanager.providers.base import Provider
 
 _BUILT_INS: Dict[str, str] = {
     "google_drive": "oauthmanager.providers.googleDrive.drive:GoogleDriveProvider",
-    # "spotify":      "oauthmanager.providers.spotify.spotify:SpotifyProvider",
+    "spotify":      "oauthmanager.providers.spotify.spotify:SpotifyProvider",
 }
 
 
