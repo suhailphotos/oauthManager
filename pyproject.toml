@@ -19,8 +19,12 @@ dependencies = [
 [project.scripts]
 oauthmanager = "oauthmanager.cli:main"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
 
-# Original [tool.poetry] has been migrated to PEP 621 by migrate2uv.sh
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = [
+  "src/oauthmanager",
+]
