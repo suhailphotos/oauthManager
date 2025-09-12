@@ -112,7 +112,7 @@ def cli_init() -> None:
         except Exception:
             click.echo("· 1Password CLI detected")
     else:
-        click.secho("\n⚠  1Password CLI ('op') not found on PATH", fg="yellow")
+        click.secho("\n1Password CLI ('op') not found on PATH", fg="yellow")
         click.echo(f"  install via: {op_cli_suggestion()}")
         click.echo("  full instructions: https://developer.1password.com/docs/cli/get-started")
 
